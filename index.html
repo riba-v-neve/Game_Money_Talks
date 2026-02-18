@@ -172,13 +172,15 @@
     .btn.primary:disabled,
     .btn.danger:disabled,
     .btn.ghost:disabled{
-      cursor:not-allowed;
-      opacity:0.65;
-      filter:grayscale(1);
-      background:linear-gradient(90deg, rgba(0,0,0,0.08), rgba(255,255,255,0.35));
+      /* выглядят как часть фона и не реагируют на наведение */
+      cursor:default;
+      pointer-events:none;
+      opacity:0.45;
+      filter:grayscale(1) contrast(0.9);
+      background:rgba(0,0,0,0.06);
       box-shadow:
-        0 0 0 3px rgba(0,0,0,0.55),
-        8px 8px 0 0 rgba(0,0,0,0.18);
+        0 0 0 3px rgba(0,0,0,0.35),
+        8px 8px 0 0 rgba(0,0,0,0.10);
     }
     .btn:disabled:hover,
     .btn.primary:disabled:hover,
@@ -196,7 +198,7 @@
 
     /* Nudge the event-day 3D panel to align with the result panel */
     @media (min-width:981px){
-      #eventPanel{ position:relative; left:-2px; }
+      #eventPanel{ position:relative; left:-6px; }
     }
     .btn.primary{ background:linear-gradient(90deg, var(--yellow), #ffe680); }
     .btn.danger{ background:linear-gradient(90deg, var(--red), #ff8a96); }
@@ -505,6 +507,8 @@
       box-shadow: inset 0 0 0 2px var(--ink);
       position:relative;
     }
+    .bar.debt{ height:18px; }
+
     .bar .fill{
       position:absolute;
       inset:0 auto 0 0;
@@ -543,6 +547,8 @@
       text-overflow:ellipsis;
       white-space:nowrap;
     }
+    #hudMoney{ font-size:16px; letter-spacing:0.06em; }
+
     .warn{ color:var(--red); }
     .ok{ color:var(--green); }
 
