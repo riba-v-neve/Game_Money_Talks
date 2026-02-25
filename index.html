@@ -501,6 +501,16 @@
       font-size:11px;
       margin-bottom:8px;
     }
+
+    .nextHint{
+      display:inline-block;
+      margin-left:6px;
+      font-size:10px;
+      opacity:0.75;
+      letter-spacing:0.10em;
+      white-space:nowrap;
+    }
+
     .bar{
       height:14px;
       background:rgba(0,0,0,0.10);
@@ -1055,17 +1065,17 @@
 <div class="pill pix" id="hudFlags">Студент ИТМО, 3 курс</div>
 <div class="bars">
 <div class="barBox">
-<div class="barLabel"><span>MOOD</span><span id="hudMoodVal">80</span></div>
+<div class="barLabel"><span>MOOD <small class="nextHint" id="hudMoodNext"></small></span><span id="hudMoodVal">80</span></div>
 <div class="bar yellow"><div class="fill" id="barMood"></div></div>
 </div>
 <div class="barBox">
-<div class="barLabel"><span>ENERGY</span><span id="hudEnergyVal">80</span></div>
+<div class="barLabel"><span>ENERGY <small class="nextHint" id="hudEnergyNext"></small></span><span id="hudEnergyVal">80</span></div>
 <div class="bar"><div class="fill" id="barEnergy"></div></div>
 </div>
 </div>
 
 </div><div class="hudRight"><div class="moneyBox">
-<div class="moneyLine"><span>ДЕНЬГИ</span><b id="hudMoney">0 ₽</b></div>
+<div class="moneyLine"><span>ДЕНЬГИ <small class="nextHint" id="hudMoneyNext"></small></span><b id="hudMoney">0 ₽</b></div>
 <div class="debtWrap">
 <div class="debtTitle"><span>ДОЛГ</span></div>
 <div class="bar debt" title="Шкала долга до лимита">
@@ -1153,13 +1163,14 @@
 <div class="px-3d modalCard">
 <p class="pix panelTitle" id="howTitle">КАК ИГРАТЬ</p>
 <p class="text modalText" id="howText">
-1) Игра длится 30 дней. Каждый день есть минимальные траты и одно событие с выбором.
-2) Деньги это баланс. Если оплаты не хватает, ты уходишь в долг по кредитке.
-3) У долга есть лимит 15 000 ₽. Шкала долга заполняется и краснеет по мере роста. Если заполнится, ты проиграл.
-4) В календаре зелёной точкой отмечены доходы, красной точкой отмечены обязательные платежи. Текущий день подсвечен.
-5) Когда приходит доход и есть долг, игра предложит выбрать: оставить деньги на балансе или направить часть суммы на погашение.
-6) Долг можно гасить кнопками «500», «1000» и «всё», но только если на балансе хватает денег.
-7) Настроение и энергия тоже ресурс. Иногда «сэкономить любой ценой» выходит дороже.
+1) Игра длится 30 дней. Каждый день - одно событие и базовая еда -210 ₽.
+2) В начале каждого дня применяются базовые изменения: еда -210 ₽ (если денег не хватает, недостача уйдёт в долг) и «сон» - энергия обычно восстанавливается, но стресс, долг и нехватка денег могут снизить энергию и настроение. В интерфейсе рядом со шкалами видно, что изменится к завтрашнему дню.
+3) Деньги - это баланс. Если оплаты не хватает, ты уходишь в долг по кредитке.
+4) У долга есть лимит 15 000 ₽. Шкала долга заполняется и краснеет по мере роста. Если заполнится, ты проиграл.
+5) В календаре зелёной точкой отмечены доходы, красной точкой - обязательные платежи. Текущий день подсвечен.
+6) Когда приходит доход и есть долг, игра предложит выбрать: оставить деньги на балансе или направить часть суммы на погашение.
+7) Долг можно гасить кнопками «500», «1000» и «всё», но только если на балансе хватает денег.
+8) Настроение и энергия тоже ресурс. Иногда «сэкономить любой ценой» выходит дороже.
           </p>
 <div class="btnRow" style="margin-top:16px;">
 <button class="btn primary" id="btnCloseHow">ПОНЯТНО</button>
@@ -1757,6 +1768,9 @@
     const barDebt = $("#barDebt");
     const hudMoodVal = $("#hudMoodVal");
     const hudEnergyVal = $("#hudEnergyVal");
+    const hudMoneyNext = $("#hudMoneyNext");
+    const hudMoodNext = $("#hudMoodNext");
+    const hudEnergyNext = $("#hudEnergyNext");
     const barMood = $("#barMood");
     const barEnergy = $("#barEnergy");
     const hudFlags = $("#hudFlags");
@@ -1930,7 +1944,39 @@ const incomeText = $("#incomeText");
       G.energy = clamp(G.energy + de, 0, 100);
     }
 
-    function applySchedule(){
+    
+    function dailyBasePreview(){
+      // Подсказка «к завтрашнему дню»: моделируем базовые расходы и сон, но ничего не меняем в состоянии игры.
+      const food = 210;
+
+      let money = G.money;
+      let debt = G.debt;
+
+      let deficit = 0;
+      if(money >= food){
+        money -= food;
+      } else {
+        deficit = food - money;
+        money = 0;
+        debt += deficit; // недостача уйдёт в долг
+      }
+
+      const st = (typeof G.stress === "number") ? G.stress : 0;
+
+      let de = 3 - Math.ceil(st * 0.7);
+      let dm = 0 - Math.floor(st / 2);
+
+      if(money < 700){ dm -= 1; de -= 1; }
+      if(debt > 0) dm -= 2;
+      if(G.energy < 20) de += 2;
+
+      const moodAfter = clamp(G.mood + dm, 0, 100);
+      const energyAfter = clamp(G.energy + de, 0, 100);
+
+      return { food, deficit, dm: moodAfter - G.mood, de: energyAfter - G.energy };
+    }
+
+function applySchedule(){
       const today = SCHEDULE
         .filter(x=>x.day===G.day)
         .sort((a,b)=> (a.type === b.type) ? 0 : (a.type === "income" ? -1 : 1));
@@ -2057,6 +2103,14 @@ return Math.max(0.01, w);
 
       hudMoodVal.textContent = String(G.mood);
       hudEnergyVal.textContent = String(G.energy);
+
+      // Подсказки «к завтрашнему дню»
+      const pv = dailyBasePreview();
+      const signM = (pv.dm >= 0) ? "+" : "";
+      const signE = (pv.de >= 0) ? "+" : "";
+      hudMoneyNext.textContent = "(ЗАВТРА: -" + formatRub(pv.food) + (pv.deficit > 0 ? ", " + formatRub(pv.deficit) + " В ДОЛГ" : "") + ")";
+      hudMoodNext.textContent = "(ЗАВТРА: " + signM + pv.dm + ")";
+      hudEnergyNext.textContent = "(ЗАВТРА: " + signE + pv.de + ")";
 
       barMood.style.width = clamp(G.mood,0,100) + "%";
       barEnergy.style.width = clamp(G.energy,0,100) + "%";
