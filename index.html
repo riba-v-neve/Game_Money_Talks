@@ -1163,9 +1163,9 @@
 <div class="px-3d modalCard">
 <p class="pix panelTitle" id="howTitle">КАК ИГРАТЬ</p>
 <p class="text modalText" id="howText">
-1) Игра длится 30 дней. Каждый день - одно событие и базовая еда -210 ₽.
+1) Игра длится 30 дней. Каждый день происходит одно событие и базовые расходы на еду: -210 ₽.
 2) В начале каждого дня применяются базовые изменения: еда -210 ₽ (если денег не хватает, недостача уйдёт в долг) и «сон» - энергия обычно восстанавливается, но стресс, долг и нехватка денег могут снизить энергию и настроение. В интерфейсе рядом со шкалами видно, что изменится к завтрашнему дню.
-3) Деньги - это баланс. Если оплаты не хватает, ты уходишь в долг по кредитке.
+3) Деньги лежат на балансе. Если денег не хватает, ты уходишь в долг по кредитке.
 4) У долга есть лимит 15 000 ₽. Шкала долга заполняется и краснеет по мере роста. Если заполнится, ты проиграл.
 5) В календаре зелёной точкой отмечены доходы, красной точкой - обязательные платежи. Текущий день подсвечен.
 6) Когда приходит доход и есть долг, игра предложит выбрать: оставить деньги на балансе или направить часть суммы на погашение.
@@ -1245,7 +1245,7 @@
 Можно взять комплексный обед в столовой или перебиться пирожком из Вольчека.`,
         choices:[
           { key:"A", label:"Комплексный обед", effects:{ money:-300, mood:4, energy:7 }, flags:["balanced"] },
-          { key:"B", label:"Пирожок из Вольчека", effects:{ money:-120, mood:-1, energy:2 }, flags:["frugal"] }
+          { key:"B", label:"Пирожок из Вольчека", effects:{ money:-100, mood:1, energy:2 }, flags:["frugal"] }
         ],
         lesson:"Питание влияет на энергию, а энергия влияет на качество решений."
       },
@@ -1257,9 +1257,9 @@
 Можно выйти на станцию раньше и пройти пешком или доехать на трамвае.`,
         choices:[
           { key:"A", label:"Пройтись пешком", effects:{ money:0, mood:2, energy:-2 }, flags:["frugal"] },
-          { key:"B", label:"Доехать на трамвае", effects:{ money:0, mood:0, energy:-1 }, flags:["impulse"] }
+          { key:"B", label:"Доехать на трамвае", effects:{ money:0, mood:-1, energy:0 }, flags:["impulse"] }
         ],
-        lesson:"Иногда внезапная прогулка лучше, чем ехать в переполненном трамвае."
+        lesson:"Иногда внезапная прогулка лучше, чем ехать на трамвае."
       },
       {
         id:"marketplace_scroll",
@@ -1280,8 +1280,8 @@
         text:`Время улетело. До общаги ночью можно добраться пешком, но это долго.
 Либо вызвать такси.`,
         choices:[
-          { key:"A", label:"Такси до общаги", effects:{ money:-520, mood:4, energy:2 }, flags:["impulse", "social"] },
-          { key:"B", label:"Пешком под музычку", effects:{ money:0, mood:1, energy:-6 }, flags:["frugal", "social"] }
+          { key:"A", label:"Такси до общаги", effects:{ money:-750, mood:4, energy:0 }, flags:["impulse", "social"] },
+          { key:"B", label:"Пешком под музычку", effects:{ money:0, mood:2, energy:-6 }, flags:["frugal", "social"] }
         ],
         lesson:"Планируй обратный путь заранее, чтобы не принимать дорогие решения в конце дня."
       },
@@ -1328,7 +1328,7 @@
         text:`В говорке Яндекса проходит бесплатная лекция.
 Можно сходить или пропустить.`,
         choices:[
-          { key:"A", label:"Сходить", effects:{ money:0, mood:3, energy:-4 }, flags:["social", "balanced"] },
+          { key:"A", label:"Сходить", effects:{ money:0, mood:4, energy:-4 }, flags:["social", "balanced"] },
           { key:"B", label:"Пропустить", effects:{ money:0, mood:-1, energy:3 }, flags:["isolate", "frugal"] }
         ],
         lesson:"Иногда ценность не в деньгах, а в знаниях."
@@ -1351,8 +1351,8 @@
         title:"Покупка продуктов",
         text:`В магазине два варианта: купить продуктов на неделю или брать по чуть-чуть каждый день.`,
         choices:[
-          { key:"A", label:"Набор на неделю", effects:{ money:-2000, mood:1, energy:-5 }, flags:["balanced"] },
-          { key:"B", label:"Покупать каждый день", effects:{ money:-400, mood:0, energy:-1 }, flags:["impulse"] }
+          { key:"A", label:"Набор на неделю", effects:{ money:-2000, mood:3, energy:-5 }, flags:["balanced"] },
+          { key:"B", label:"Покупать каждый день", effects:{ money:0, mood:0, energy:-1 }, flags:["impulse"] }
         ],
         lesson:"Планирование покупок снижает риск переплат и спонтанных трат."
       },
@@ -1363,7 +1363,7 @@
         text:`Банк предлагает кэшбэк за оплату.
 Нужно немного времени, чтобы оформить.`,
         choices:[
-          { key:"A", label:"Оформить кэшбэк", effects:{ money:150, mood:1, energy:0 }, flags:["balanced"] },
+          { key:"A", label:"Оформить кэшбэк", effects:{ money:150, mood:2, energy:0 }, flags:["balanced"] },
           { key:"B", label:"Забить", effects:{ money:0, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Если у банка есть такая опция, то кешбэк лучше оформить."
@@ -1376,7 +1376,7 @@
 Похоже на развод, но любопытно.`,
         choices:[
           { key:"A", label:"Перейти по ссылке", effects:g=>{ const m = (g.money < 1200) ? -600 : -1200; return { money:m, debt:0, mood:-6.0, energy:-2.0 }; }, flags:["impulse"] },
-          { key:"B", label:"Удалить и забыть", effects:{ money:0, mood:2, energy:1 }, flags:["balanced"] }
+          { key:"B", label:"Удалить и забыть", effects:{ money:0, mood:2, energy:0 }, flags:["balanced"] }
         ],
         lesson:"Если предложение давит на срочность и обещает легкие деньги, это частый признак мошенничества."
       },
@@ -1388,7 +1388,7 @@
 Оплата небольшая, но в этот же день.`,
         conditions:{ maxEnergy:95 },
         choices:[
-          { key:"A", label:"Взяться", effects:{ money:900, mood:2, energy:-8 }, flags:["work"] },
+          { key:"A", label:"Взяться", effects:{ money:900, mood:2, energy:-7 }, flags:["work"] },
           { key:"B", label:"Не сейчас", effects:{ money:0, mood:0, energy:3 }, flags:["frugal"] }
         ],
         lesson:"Доход часто требует энергии, важно не выжечь себя ради разовой суммы."
@@ -1409,11 +1409,10 @@
         id:"impulse_sale",
         cat:"соблазн",
         title:"Скидка только сегодня",
-        text:`Витрина кричит о скидке.
-Товар приятный, но не жизненно необходим.`,
+        text:`Товар прикольный, но не жизненно необходим.`,
         choices:[
           { key:"A", label:"Купить", effects:{ money:-1600, mood:6, energy:1 }, flags:["impulse"] },
-          { key:"B", label:"Пройти мимо", effects:{ money:0, mood:1, energy:1 }, flags:["frugal"] }
+          { key:"B", label:"Пройти мимо", effects:{ money:0, mood:0, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Скидка экономит деньги только если покупка была запланирована заранее."
       },
@@ -1424,7 +1423,7 @@
         text:`Очередь к машинке. Можно ждать и стирать сейчас или отнести вещи в прачечную.`,
         choices:[
           { key:"A", label:"Прачечная", effects:{ money:-500, mood:2, energy:-1 }, flags:["impulse"] },
-          { key:"B", label:"Подождать и стирать", effects:{ money:0, mood:-1, energy:-4 }, flags:["frugal"] }
+          { key:"B", label:"Подождать и стирать", effects:{ money:0, mood:-1, energy:-5 }, flags:["frugal"] }
         ],
         lesson:"Платные сервисы покупают время и комфорт, решай осознанно, когда это нужно."
       },
@@ -1435,7 +1434,7 @@
         text:`Без музыки в дороге грустно.
 Можно купить новые или переждать.`,
         choices:[
-          { key:"A", label:"Купить новые", effects:{ money:-3000, mood:3, energy:2 }, flags:["impulse"] },
+          { key:"A", label:"Купить новые", effects:{ money:-3000, mood:5, energy:2 }, flags:["impulse"] },
           { key:"B", label:"Переждать", effects:{ money:0, mood:-3, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Лучше заранее иметь небольшие накопления на внезапные поломки."
@@ -1448,7 +1447,7 @@
 Или держаться своего мини-бюджета.`,
         choices:[
           { key:"A", label:"Скинуться и готовить", effects:{ money:-300, mood:4, energy:4 }, flags:["social", "balanced"] },
-          { key:"B", label:"Отказаться", effects:{ money:0, mood:-2, energy:1 }, flags:["isolate", "frugal"] }
+          { key:"B", label:"Отказаться", effects:{ money:0, mood:-2, energy:0 }, flags:["isolate", "frugal"] }
         ],
         lesson:"Совместные покупки иногда дешевле и полезнее, чем одиночные перекусы."
       },
@@ -1460,7 +1459,7 @@
 Можно подклеить в мастерской или купить новые.`,
         choices:[
           { key:"A", label:"Подклеить", effects:{ money:-700, mood:1, energy:-2 }, flags:["balanced"] },
-          { key:"B", label:"Новые", effects:{ money:-4500, mood:4, energy:1 }, flags:["impulse"] }
+          { key:"B", label:"Новые", effects:{ money:-4500, mood:4, energy:0 }, flags:["impulse"] }
         ],
         lesson:"Ремонт часто выигрывает по цене, если качество базовой вещи нормальное."
       },
@@ -1471,8 +1470,8 @@
         text:`На кассе спрашивают студенческий.
 Показать и получить скидку или не заморачиваться?`,
         choices:[
-          { key:"A", label:"Показать", effects:{ money:120, mood:1, energy:-1 }, flags:["balanced"] },
-          { key:"B", label:"Не надо", effects:{ money:0, mood:0, energy:1 }, flags:["frugal"] }
+          { key:"A", label:"Показать", effects:{ money:120, mood:2, energy:-1 }, flags:["balanced"] },
+          { key:"B", label:"Не надо", effects:{ money:0, mood:0, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Легкие скидки полезны, если они не требуют большого времени и нервов."
       },
@@ -1481,10 +1480,10 @@
         cat:"хобби",
         title:"Репетиционная точка",
         text:`Хочется поиграть на барабанах.
-Можно оплатить реп точку или пропустить ради экономии.`,
+Можно оплатить репетиционную точку или пропустить ради экономии.`,
         choices:[
-          { key:"A", label:"Оплатить реп точку", effects:{ money:-900, mood:7, energy:-4 }, flags:["balanced"] },
-          { key:"B", label:"Пропустить", effects:{ money:0, mood:-4, energy:2 }, flags:["isolate", "frugal"] }
+          { key:"A", label:"Оплатить реп точку", effects:{ money:-900, mood:7, energy:-3 }, flags:["balanced"] },
+          { key:"B", label:"Пропустить", effects:{ money:0, mood:-4, energy:3 }, flags:["isolate", "frugal"] }
         ],
         lesson:"Расходы на хобби это инвестиция в качество жизни, но им нужен лимит."
       },
@@ -1508,7 +1507,7 @@
 Вроде экономия, но внутри пусто.`,
         conditions:{ minIsolationStreak:2 },
         choices:[
-          { key:"A", label:"Прогулка за вкусняшкой", effects:{ money:-120, mood:6, energy:-3 }, flags:["social", "balanced"] },
+          { key:"A", label:"Прогулка за вкусняшкой", effects:{ money:-120, mood:6, energy:-2 }, flags:["social", "balanced"] },
           { key:"B", label:"Остаться в комнате", effects:{ money:0, mood:-7, energy:2 }, flags:["isolate", "frugal"] }
         ],
         lesson:"Экономия ценой психики часто приводит к более дорогим решениям позже."
@@ -1520,7 +1519,7 @@
         text:`Очень хочется купить пирожок, но лимит денег на еду уже потрачен на сегодня.`,
         choices:[
           { key:"A", label:"Взять пирожок", effects:{ money:-150, mood:3, energy:2 }, flags:["impulse"] },
-          { key:"B", label:"Пройти мимо", effects:{ money:0, mood:1, energy:1 }, flags:["frugal"] }
+          { key:"B", label:"Пройти мимо", effects:{ money:0, mood:0, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Держи небольшой лимит на радости, чтобы не сорваться на крупные траты."
       },
@@ -1544,7 +1543,7 @@
 Небольшая сумма, но это плюс.`,
         choices:[
           { key:"A", label:"Зафиксировать в бюджете", effects:{ money:480, mood:1, energy:1 }, flags:["balanced"] },
-          { key:"B", label:"Сразу потратить", effects:{ money:30, mood:3, energy:0 }, flags:["impulse"] }
+          { key:"B", label:"Сразу потратить", effects:{ money:0, mood:4, energy:0 }, flags:["impulse"] }
         ],
         lesson:"Возвраты лучше не смешивать с тратами: так бюджет остается управляемым."
       },
@@ -1594,7 +1593,7 @@
         text:`Сегодня сил мало. Можно заказать доставку или приготовить что-то простое.`,
         choices:[
           { key:"A", label:"Доставка", effects:{ money:-980, mood:3, energy:3 }, flags:["impulse"] },
-          { key:"B", label:"Простая готовка", effects:{ money:-260, mood:1, energy:-4 }, flags:["balanced"] }
+          { key:"B", label:"Простая готовка", effects:{ money:0, mood:1, energy:-4 }, flags:["balanced"] }
         ],
         lesson:"Доставка это инструмент, но ей нужен лимит, иначе она съедает бюджет."
       },
@@ -1605,7 +1604,7 @@
         text:`Тебя зовут на нетворкинг встречу после пары.
 Можно сходить или уйти отдыхать.`,
         choices:[
-          { key:"A", label:"Сходить", effects:{ money:-120, mood:4, energy:-4 }, flags:["social", "balanced"] },
+          { key:"A", label:"Сходить", effects:{ money:-400, mood:4, energy:-4 }, flags:["social", "balanced"] },
           { key:"B", label:"Домой", effects:{ money:0, mood:-1, energy:4 }, flags:["isolate", "frugal"] }
         ],
         lesson:"Социальный капитал может дать подработки и скидки позже."
@@ -1698,7 +1697,7 @@
 Но есть риск съесть все за 2 дня.`,
         choices:[
           { key:"A", label:"Закупить", effects:{ money:-700, mood:2, energy:1 }, flags:["impulse"] },
-          { key:"B", label:"Не брать", effects:{ money:0, mood:1, energy:1 }, flags:["frugal"] }
+          { key:"B", label:"Не брать", effects:{ money:0, mood:1, energy:0 }, flags:["frugal"] }
         ],
         lesson:"Запасы работают, если ты контролируешь привычки и не съедешь все за раз."
       }
